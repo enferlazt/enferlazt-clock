@@ -9,7 +9,7 @@ Its a Javascript library which adds clock(analogue or digital) to your site.
 ## Install
 ### Connection
 Download files from git. Directory `enferlazt-clock` move to your project
-***
+
 You need to insert this code in your HTML file.
 On Head
 ```html
