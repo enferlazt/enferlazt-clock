@@ -1,0 +1,16 @@
+{
+  "name": "enferlazt-clock",
+  "version": "2.1.0",
+  "description": "A JavaScript clock library by Enferlazt",
+  "main": "dist/enferlazt-clock.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enferlazt/enferlazt-clock.git"
+  },
+  "author": "Enferlazt (https://github.com/enferlazt)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enferlazt/enferlazt-clock/issues"
+  },
+  "homepage": "https://github.com/enferlazt/enferlazt-clock#readme"
+}
