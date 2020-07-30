@@ -19,7 +19,7 @@ It is a JavaScript clock library. Makes it easy to add a clock or time to your w
 	+ [Additional fields of analog type](#additional-fields-of-analog-type)
 
 ## Demo
-You can see it in work [here](enferlazt-clock.freeoda.com)
+You can see it in work [here](http://enferlazt-clock.freeoda.com/)
 
 ## Install
 ###### From CDN:
