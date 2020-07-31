@@ -1,17 +1,10 @@
-@font-face{
-	font-family: 'Digital-Font';
-	src: url('fonts/digital-7.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
 enferlazt-clock {
 	position: relative;
 	display: inline-block;
 	margin: auto;
 }
 
-enferlazt-clock > .enferlazt-background{
+enferlazt-clock > .enferlazt-face{
 	width: 170px;
 	height: 170px;
 }
@@ -42,49 +35,33 @@ enferlazt-clock[type = 'analog'] > .enferlazt-seconds > .enferlazt-seconds-img{
 }
 
 enferlazt-clock[type = 'digital'] > .enferlazt-digital{
-	position: absolute;
-	top: 0;
+	height: 170px;
+	width: 170px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-hours,
 enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-minutes,
 enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-seconds,
 enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-delimiter{
-	font-family: 'Digital-Font';
-	color: green;
 	font-size: 48px;
-	max-width: 20px;
-	line-height: 173.5px;
 }
 
-enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-hours{
-	margin-left: 15px;
-}
-
-enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-delimiter{
-	margin-left: -5px;
-	margin-right: -10px;
-}
-
-enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-minutes{
-	margin-left: 5px;
-}
-
-enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-seconds{
-	font-size: 32px;
-	margin-left: 13px;
+enferlazt-clock[type = 'digital'] > .enferlazt-digital > .enferlazt-delimiter:before{
+	content: ':';
 }
 
 enferlazt-clock .enferlazt-caption{
 	position: relative;
 	margin: 10px auto;
 	text-align: center;
-	width: 170px;
 	font-size: 24px;
 	z-index: 5;
 }
 
-enferlazt-clock[map = 'true'] > .enferlazt-caption:hover{
+enferlazt-clock[map] > .enferlazt-caption:hover{
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -92,8 +69,6 @@ enferlazt-clock[map = 'true'] > .enferlazt-caption:hover{
 enferlazt-clock .enferlazt-iframe {
 	position: absolute;
 	display: none;
-	width: 170px;
-	height: 170px;
 	top: 0;
 	z-index: 5;
 }

@@ -52,11 +52,11 @@
 					this.createType.analog.call(this, VARIATION);
 					break;
 				case 'digital':
-					this.createType.digital.call(this, VARIATION);
+					this.createType.digital.call(this);
 					break;
 			}
 	
-			if(this.getAttribute('title') || this.getAttribute('map') == "true"){
+			if(this.getAttribute('title') || this.getAttribute('map') != null){
 				this._getCaption({
 					titleText: this.getAttribute('title'),
 					fullLocation: this.getAttribute('location'),
@@ -68,8 +68,8 @@
 			return {
 				analog(variation){
 					let background = document.createElement('img');
-					background.className = 'enferlazt-background';
-					background.src = this.getAttribute('bgImg') || `${this._url_image}analog-${variation}.png`;
+					background.className = 'enferlazt-face';
+					background.src = this.getAttribute('bgImg') || `${this._url_image}face-${variation}.png`;
 					this.appendChild(background);
 	
 					this.createNesting.analog.call(this, {
@@ -82,24 +82,24 @@
 						srcImage: this.getAttribute('minImg') || `${this._url_image}min-${variation}.png`
 					});
 	
-					this.createNesting.analog.call(this, {
-						classTitle: "seconds",
-						srcImage: this.getAttribute('secImg') || `${this._url_image}sec-${variation}.png`
-					});
+					if(this.getAttribute('seconds') != 'false'){
+						this.createNesting.analog.call(this, {
+							classTitle: "seconds",
+							srcImage: this.getAttribute('secImg') || `${this._url_image}sec-${variation}.png`
+						});
+					}
 	
 					this.nextStep.analog.call(this);
 					setInterval(this.nextStep.analog.bind(this), 1000);
 				},
-				digital(variation){
-					let background = document.createElement('img');
-					background.className = 'enferlazt-background';
-					background.src = `${this._url_image}digital-${variation}.png`;
-					this.appendChild(background);
-	
+				digital(){
 					let div = document.createElement('div');
 					div.className = 'enferlazt-digital';
+					if(this.getAttribute('styles')){
+						div.style = this.getAttribute('styles');
+					}
 					this.appendChild(div);
-	
+
 					this.createNesting.digital.call(div, {
 						classTitle: "hours"
 					});
@@ -107,15 +107,22 @@
 					this.createNesting.digital.call(div, {
 						classTitle: "delimiter"
 					});
-					div.children[1].innerHTML = ':';
 	
 					this.createNesting.digital.call(div, {
 						classTitle: "minutes"
 					});
+
+					if(this.getAttribute('seconds') != 'false'){
 					
-					this.createNesting.digital.call(div, {
-						classTitle: "seconds"
-					});
+						this.createNesting.digital.call(div, {
+							classTitle: "delimiter"
+						});
+
+						this.createNesting.digital.call(div, {
+							classTitle: "seconds"
+						});
+
+					}
 	
 					this.nextStep.digital.call(this, div);
 					setInterval(this.nextStep.digital.bind(this, div), 1000);
@@ -151,22 +158,30 @@
 					let min = 6 * (+d.format('mm') + (1/60) * d.format('ss'));
 					let hour = 30 * (+d.format('HH') + (1/60) * d.format('mm'));
 	
-					let copy = this.children[3].children[0];
-					this.children[3].replaceChild(copy, this.children[3].children[0]);
+					if(this.getAttribute('seconds') != 'false'){
+						let copy = this.children[3].children[0];
+						this.children[3].replaceChild(copy, this.children[3].children[0]);
+					}
 					
 					this.children[1].style.webkitTransform = `rotateZ(${hour}deg)`;
 					this.children[2].style.webkitTransform = `rotateZ(${min}deg)`;
-					this.children[3].style.webkitTransform = `rotateZ(${sec}deg)`;
+					if(this.getAttribute('seconds') != 'false'){
+						this.children[3].style.webkitTransform = `rotateZ(${sec}deg)`;
+					}
 					
 					this.children[1].style.transform = `rotateZ(${hour}deg)`;
 					this.children[2].style.transform = `rotateZ(${min}deg)`;
-					this.children[3].style.transform = `rotateZ(${sec}deg)`;
+					if(this.getAttribute('seconds') != 'false'){
+						this.children[3].style.transform = `rotateZ(${sec}deg)`;
+					}
 				},
 				digital(div){
 					let d = moment().tz(this.getAttribute('location'));
 					div.children[0].innerHTML = d.format('HH');
 					div.children[2].innerHTML = d.format('mm');
-					div.children[3].innerHTML = d.format('ss');
+					if(this.getAttribute('seconds') != 'false'){
+						div.children[4].innerHTML = d.format('ss');
+					}
 				}
 			}
 		}
@@ -176,10 +191,13 @@
 			let p = document.createElement('p');
 			p.className ='enferlazt-caption';
 			p.innerHTML = captionText;
+			if(this.getAttribute('title-styles')){
+				p.style = this.getAttribute('title-styles');
+			}
 			this.appendChild(p);
 	
-			if(this.getAttribute('map') == "true"){
-				this._getMap(p, fullLocation);
+			if(this.getAttribute('map') != null){
+				this._getMap(p, fullLocation, this.getAttribute('map'));
 			}
 	
 			function city(){
@@ -189,10 +207,15 @@
 			}
 		}
 	
-		_getMap(p, fullLocation){
+		_getMap(p, fullLocation, map){
 			let iframe = document.createElement('iframe');
 			iframe.className = 'enferlazt-iframe';
 			iframe.frameBorder = '';
+			iframe.width = getComputedStyle(this.children[0]).width;
+			iframe.height = getComputedStyle(this.children[0]).height;
+			if(map != ''){
+				fullLocation = map;
+			}
 			iframe.src = "https://maps.google.com/maps?&width=170&amp;&height=170&amp;&hl=en&amp;&q=" + fullLocation + "&amp;&ie=UTF8&amp;&t=&amp;&z=3&amp;&iwloc=B&amp;&output=embed";
 			this.appendChild(iframe);
 			
